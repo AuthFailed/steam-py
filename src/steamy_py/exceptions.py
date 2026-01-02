@@ -1,6 +1,6 @@
 """Custom exceptions for Steam API wrapper."""
 
-from typing import Optional, Dict, Any
+from typing import Any, Dict, Optional
 
 
 class SteamAPIError(Exception):

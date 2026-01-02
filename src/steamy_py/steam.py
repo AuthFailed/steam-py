@@ -5,13 +5,12 @@ from typing import Optional
 
 from .client import Client
 from .config import Settings
+from .exceptions import ConfigurationError
 from .repos.family import FamilyAPI
-from .repos.player import PlayerAPI
 from .repos.game import GameAPI
 from .repos.market import MarketAPI
+from .repos.player import PlayerAPI
 from .repos.stats import StatsAPI
-from .exceptions import ConfigurationError
-
 
 logger = logging.getLogger(__name__)
 

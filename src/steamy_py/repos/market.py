@@ -4,21 +4,20 @@ import logging
 from typing import List, Optional
 
 from ..exceptions import (
-    PlayerNotFoundError,
     InvalidSteamIDError,
+    PlayerNotFoundError,
     PrivateProfileError,
     SteamAPIError,
 )
 from ..models.market import (
-    PriceInfo,
-    MarketHistoryEntry,
-    ItemPriceResponse,
-    MarketListingsResponse,
-    MarketHistoryResponse,
     InventoryResponse,
+    ItemPriceResponse,
+    MarketHistoryEntry,
+    MarketHistoryResponse,
+    MarketListingsResponse,
+    PriceInfo,
 )
 from .base import BaseAPI
-
 
 logger = logging.getLogger(__name__)
 

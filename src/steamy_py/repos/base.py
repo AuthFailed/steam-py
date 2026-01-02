@@ -1,10 +1,9 @@
 """Base repository class for Steam API endpoints."""
 
-from typing import Any, Dict, Optional
 import logging
+from typing import Any, Dict, Optional
 
 from ..client import Client
-
 
 logger = logging.getLogger(__name__)
 

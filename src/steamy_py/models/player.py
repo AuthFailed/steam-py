@@ -3,6 +3,7 @@
 from datetime import datetime
 from enum import IntEnum
 from typing import List, Optional
+
 from pydantic import Field
 
 from .base import SteamModel, SteamResponse
