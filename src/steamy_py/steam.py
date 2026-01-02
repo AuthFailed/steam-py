@@ -25,7 +25,7 @@ class Steam:
     Example:
         ```python
         import asyncio
-        from steam_py import Steam
+        from steamy_py import Steam
 
         async def main():
             async with Steam(api_key="your_api_key") as steam:

@@ -1,24 +1,51 @@
 [project]
-name = "steam-py"
+name = "steamy-py"
 version = "1.0.0"
-description = "Steam API wrapper"
-readme = "README.md"
+description = "Asynchronous Python wrapper for the Steam Web API"
+readme = { file = "README.md", content-type = "text/markdown" }
+requires-python = ">=3.13"
+
 authors = [
     { name = "Roman Chursanov", email = "roman@chrsnv.ru" }
 ]
-requires-python = ">=3.13"
+
+license = { text = "MIT" }
+
+keywords = [
+    "steam",
+    "steam-api",
+    "async",
+    "aiohttp",
+    "wrapper",
+]
+
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+]
+
 dependencies = [
     "aiohttp[speedups]>=3.13.2",
     "pydantic>=2.12.5",
     "pydantic-settings>=2.12.0",
 ]
 
+[project.urls]
+Homepage = "https://github.com/AuthFailed/steam-py"
+Repository = "https://github.com/AuthFailed/steam-py"
+Issues = "https://github.com/AuthFailed/steam-py/issues"
+Changelog = "https://github.com/AuthFailed/steam-py/releases"
+
+[project.optional-dependencies]
+dev = [
+    "ruff>=0.14.10",
+    "ty>=0.0.8",
+]
+
 [build-system]
-requires = ["uv_build>=0.9.21,<0.10.0"]
+requires = ["uv-build>=0.9.21,<0.10.0"]
 build-backend = "uv_build"
 
 [dependency-groups]
 dev = [
-    "ruff>=0.14.10",
-    "ty>=0.0.8",
+    "twine>=6.2.0",
 ]
