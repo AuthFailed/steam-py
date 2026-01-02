@@ -1,7 +1,7 @@
 """Player/User API endpoints for Steam API."""
 
 import logging
-from typing import List, Optional, Union
+from typing import Union
 
 from ..exceptions import (
     InvalidSteamIDError,
@@ -26,8 +26,8 @@ class PlayerAPI(BaseAPI):
     """Steam Player/User API endpoints."""
 
     async def get_player_summaries(
-        self, steam_ids: Union[str, List[str]]
-    ) -> List[PlayerSummary]:
+        self, steam_ids: Union[str, list[str]]
+    ) -> list[PlayerSummary]:
         """Get player summary information for one or more Steam IDs.
 
         Args:
@@ -75,7 +75,7 @@ class PlayerAPI(BaseAPI):
 
     async def get_friends_list(
         self, steam_id: str, relationship: str = "friend"
-    ) -> List[Friend]:
+    ) -> list[Friend]:
         """Get friends list for a Steam user.
 
         Args:
@@ -119,8 +119,8 @@ class PlayerAPI(BaseAPI):
             raise SteamAPIError(f"Failed to get friends list: {e}")
 
     async def get_player_bans(
-        self, steam_ids: Union[str, List[str]]
-    ) -> List[PlayerBan]:
+        self, steam_ids: Union[str, list[str]]
+    ) -> list[PlayerBan]:
         """Get ban information for one or more Steam users.
 
         Args:
@@ -167,7 +167,7 @@ class PlayerAPI(BaseAPI):
 
     async def resolve_vanity_url(
         self, vanity_url: str, url_type: int = 1
-    ) -> Optional[str]:
+    ) -> str | None:
         """Resolve a Steam vanity URL to a Steam ID.
 
         Args:
@@ -230,7 +230,7 @@ class PlayerAPI(BaseAPI):
         if not steam_id.startswith("7656119"):
             raise InvalidSteamIDError(steam_id, "Invalid Steam ID format")
 
-    async def get_player_summary(self, steam_id: str) -> Optional[PlayerSummary]:
+    async def get_player_summary(self, steam_id: str) -> PlayerSummary | None:
         """Get single player summary (convenience method).
 
         Args:

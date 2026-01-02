@@ -1,7 +1,6 @@
 """Steam Family API endpoints."""
 
 import logging
-from typing import Optional
 
 from ..exceptions import AuthenticationError, SteamAPIError
 from ..models.family import FamilyGroupStatusResponse, SteamResponse
@@ -24,7 +23,7 @@ class FamilyAPI(BaseAPI):
 
         Args:
             family_group_id: Requester's family group id
-            steamid_to_cancel:
+            steamid_to_cancel: Steamid of user for invite cancellation
 
         Returns:
 
@@ -37,7 +36,7 @@ class FamilyAPI(BaseAPI):
 
         Args:
             steamid:
-            invite_id:
+            invite_id: Steamid of user to clear cooldown skip
 
         Returns:
 
@@ -136,8 +135,11 @@ class FamilyAPI(BaseAPI):
     ):
         """Get family group information.
 
+        **Available only to SUPPORT/ADMIN accounts.**
+        Use *get_family_group_for_user* to get info about user's family group
+
         Args:
-            family_group_id: Requester's family group id
+            family_group_id: Family group id
             send_running_apps: Whether to include running app information
 
         Returns:
@@ -148,8 +150,8 @@ class FamilyAPI(BaseAPI):
             SteamAPIError: On API errors
         """
         params = {}
-        if family_group_id is not None:
-            params["family_group_id"] = str(family_group_id)
+        if family_group_id:
+            params["family_group_id"] = family_group_id
         if send_running_apps:
             params["send_running_apps"] = "1"
 
@@ -173,7 +175,7 @@ class FamilyAPI(BaseAPI):
             raise SteamAPIError(f"Failed to get family group: {e}") from e
 
     async def get_family_group_for_user(
-        self, steamid: Optional[str] = None
+        self, steamid: str | None = None
     ) -> FamilyGroupStatusResponse:
         """Gets the family group id for the authenticated user
          or a user specified by a support account.
@@ -226,7 +228,7 @@ class FamilyAPI(BaseAPI):
         """
 
     async def get_playtime_summary(
-        self, family_group_id: Optional[int] = None
+        self, family_group_id: int | None = None
     ) -> SteamResponse:
         """Get the playtimes in all apps from the shared library
          for the whole family group.

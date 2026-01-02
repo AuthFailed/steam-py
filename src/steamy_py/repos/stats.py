@@ -1,7 +1,6 @@
 """Statistics API endpoints for Steam API."""
 
 import logging
-from typing import List, Optional
 
 from ..exceptions import (
     GameNotFoundError,
@@ -35,10 +34,10 @@ class StatsAPI(BaseAPI):
     async def get_global_stats_for_game(
         self,
         app_id: int,
-        stat_names: List[str],
-        start_date: Optional[int] = None,
-        end_date: Optional[int] = None,
-    ) -> List[GlobalStat]:
+        stat_names: list[str],
+        start_date: int | None = None,
+        end_date: int | None = None,
+    ) -> list[GlobalStat]:
         """Get global statistics for a game.
 
         Args:
@@ -160,7 +159,7 @@ class StatsAPI(BaseAPI):
 
     async def get_global_achievement_percentages(
         self, app_id: int
-    ) -> List[GlobalAchievementStat]:
+    ) -> list[GlobalAchievementStat]:
         """Get global achievement completion percentages for a game.
 
         Args:
@@ -246,7 +245,7 @@ class StatsAPI(BaseAPI):
 
     async def get_news_for_app(
         self, app_id: int, count: int = 20, max_length: int = 300
-    ) -> List[NewsItem]:
+    ) -> list[NewsItem]:
         """Get news items for a game.
 
         Args:
@@ -292,7 +291,7 @@ class StatsAPI(BaseAPI):
 
     async def get_user_achievements_only(
         self, steam_id: str, app_id: int
-    ) -> List[UserAchievement]:
+    ) -> list[UserAchievement]:
         """Get only user achievements (convenience method).
 
         Args:
@@ -312,7 +311,7 @@ class StatsAPI(BaseAPI):
         user_stats = await self.get_user_stats_for_game(steam_id, app_id)
         return user_stats.achievements
 
-    async def get_user_stats_only(self, steam_id: str, app_id: int) -> List[UserStat]:
+    async def get_user_stats_only(self, steam_id: str, app_id: int) -> list[UserStat]:
         """Get only user statistics (convenience method).
 
         Args:

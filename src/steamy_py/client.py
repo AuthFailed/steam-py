@@ -3,7 +3,7 @@
 import asyncio
 import logging
 import time
-from typing import Any, Dict, Optional
+from typing import Any
 
 import aiohttp
 from aiohttp import ClientError, ClientSession, ClientTimeout
@@ -18,9 +18,9 @@ class Client:
 
     def __init__(
         self,
-        api_key: Optional[str] = None,
-        access_token: Optional[str] = None,
-        settings: Optional[Settings] = None,
+        api_key: str | None = None,
+        access_token: str | None = None,
+        settings: Settings | None = None,
     ):
         """Initialize the client.
 
@@ -32,7 +32,7 @@ class Client:
         self.api_key = api_key
         self.access_token = access_token
         self.settings = settings or Settings()
-        self._session: Optional[ClientSession] = None
+        self._session: ClientSession | None = None
         self._last_request_time = 0.0
 
         # Setup logging
@@ -94,10 +94,10 @@ class Client:
         self,
         method: str,
         url: str,
-        params: Optional[Dict[str, Any]] = None,
+        params: dict[str, Any] | None = None,
         auth_type: str = "api_key",
         **kwargs,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Make authenticated request to Steam API.
 
         Args:

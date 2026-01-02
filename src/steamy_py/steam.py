@@ -1,7 +1,6 @@
 """Main Steam Web API wrapper class."""
 
 import logging
-from typing import Optional
 
 from .client import Client
 from .config import Settings
@@ -47,9 +46,9 @@ class Steam:
 
     def __init__(
         self,
-        api_key: Optional[str] = None,
-        access_token: Optional[str] = None,
-        settings: Optional[Settings] = None,
+        api_key: str | None = None,
+        access_token: str | None = None,
+        settings: Settings | None = None,
         **kwargs,
     ):
         """Initialize the Steam API client.

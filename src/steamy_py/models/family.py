@@ -1,5 +1,3 @@
-from typing import List
-
 from pydantic import BaseModel, Field
 
 
@@ -25,7 +23,7 @@ class FamilyGroupStatus(BaseModel):
         ..., description="Cooldown until next available family group change"
     )
     can_undelete_last_joined_family: bool = Field(..., description="")
-    membership_history: List[MembershipHistoryEntry]
+    membership_history: list[MembershipHistoryEntry]
 
 
 class FamilyGroupStatusResponse(BaseModel):
@@ -49,7 +47,7 @@ class Entry(BaseModel):
 
 
 class ResponseData(BaseModel):
-    entries: List[Entry]
+    entries: list[Entry]
 
 
 class SteamResponse(BaseModel):
