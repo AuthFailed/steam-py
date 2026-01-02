@@ -1,7 +1,6 @@
 """Market API endpoints for Steam Community Market."""
 
 import logging
-from typing import List, Optional
 
 from ..exceptions import (
     InvalidSteamIDError,
@@ -47,7 +46,7 @@ class MarketAPI(BaseAPI):
         market_hash_name: str,
         app_id: int = 730,  # Default to CS:GO
         currency: int = 1,  # USD
-    ) -> Optional[PriceInfo]:
+    ) -> PriceInfo | None:
         """Get current market price for an item.
 
         Args:
@@ -127,7 +126,7 @@ class MarketAPI(BaseAPI):
 
     async def get_price_history(
         self, market_hash_name: str, app_id: int = 730
-    ) -> List[MarketHistoryEntry]:
+    ) -> list[MarketHistoryEntry]:
         """Get price history for an item.
 
         Args:
@@ -164,7 +163,7 @@ class MarketAPI(BaseAPI):
         steam_id: str,
         app_id: int,
         context_id: str = "2",
-        start_assetid: Optional[str] = None,
+        start_assetid: str | None = None,
         count: int = 5000,
     ) -> InventoryResponse:
         """Get Steam inventory for a user.
@@ -221,7 +220,7 @@ class MarketAPI(BaseAPI):
     async def search_market(
         self,
         query: str = "",
-        app_id: Optional[int] = None,
+        app_id: int | None = None,
         start: int = 0,
         count: int = 100,
         sort_column: str = "popular",
@@ -274,7 +273,7 @@ class MarketAPI(BaseAPI):
             raise SteamAPIError(f"Failed to search market: {e}")
 
     async def get_popular_items(
-        self, app_id: Optional[int] = None, count: int = 100
+        self, app_id: int | None = None, count: int = 100
     ) -> MarketListingsResponse:
         """Get popular market items.
 
@@ -293,7 +292,7 @@ class MarketAPI(BaseAPI):
         )
 
     async def get_recent_items(
-        self, app_id: Optional[int] = None, count: int = 100
+        self, app_id: int | None = None, count: int = 100
     ) -> MarketListingsResponse:
         """Get recently listed market items.
 

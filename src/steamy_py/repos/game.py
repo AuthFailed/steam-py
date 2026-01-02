@@ -1,7 +1,6 @@
 """Games/Apps API endpoints for Steam API."""
 
 import logging
-from typing import List, Optional
 
 from ..exceptions import (
     GameNotFoundError,
@@ -34,8 +33,8 @@ class GameAPI(BaseAPI):
         steam_id: str,
         include_appinfo: bool = True,
         include_played_free_games: bool = False,
-        appids_filter: Optional[List[int]] = None,
-    ) -> List[OwnedGame]:
+        appids_filter: list[int] | None = None,
+    ) -> list[OwnedGame]:
         """Get games owned by a Steam user.
 
         Args:
@@ -90,7 +89,7 @@ class GameAPI(BaseAPI):
                 raise
             raise SteamAPIError(f"Failed to get owned games: {e}") from e
 
-    async def get_app_list(self) -> List[SteamApp]:
+    async def get_app_list(self) -> list[SteamApp]:
         """Get list of all Steam applications.
 
         Returns:
@@ -118,7 +117,7 @@ class GameAPI(BaseAPI):
 
     async def get_player_achievements(
         self, steam_id: str, app_id: int, language: str = "english"
-    ) -> List[Achievement]:
+    ) -> list[Achievement]:
         """Get player achievements for a specific game.
 
         Args:
@@ -221,7 +220,7 @@ class GameAPI(BaseAPI):
 
     async def get_app_details(
         self, app_id: int, country: str = "US", language: str = "english"
-    ) -> Optional[AppDetails]:
+    ) -> AppDetails | None:
         """Get detailed application information from Steam Store.
 
         Args:
@@ -257,8 +256,8 @@ class GameAPI(BaseAPI):
             raise SteamAPIError(f"Failed to get app details: {e}") from e
 
     async def search_games(
-        self, search_term: str, owned_games: Optional[List[OwnedGame]] = None
-    ) -> List[SteamApp]:
+        self, search_term: str, owned_games: list[OwnedGame] | None = None
+    ) -> list[SteamApp]:
         """Search for games by name.
 
         Args:

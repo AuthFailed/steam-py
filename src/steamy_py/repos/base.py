@@ -1,7 +1,7 @@
 """Base repository class for Steam API endpoints."""
 
 import logging
-from typing import Any, Dict, Optional
+from typing import Any
 
 from ..client import Client
 
@@ -59,11 +59,11 @@ class BaseAPI:
         interface: str,
         method: str,
         version: str = "v1",
-        params: Optional[Dict[str, Any]] = None,
+        params: dict[str, Any] | None = None,
         auth_type: str = "api_key",
         http_method: str = "GET",
         **kwargs,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Make authenticated request to Steam API.
 
         Args:
@@ -94,11 +94,11 @@ class BaseAPI:
     async def _request_store(
         self,
         endpoint: str,
-        params: Optional[Dict[str, Any]] = None,
+        params: dict[str, Any] | None = None,
         auth_type: str = "none",
         http_method: str = "GET",
         **kwargs,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Make request to Steam Store API.
 
         Args:
@@ -130,10 +130,10 @@ class BaseAPI:
         interface: str,
         method: str,
         version: str = "v1",
-        params: Optional[Dict[str, Any]] = None,
+        params: dict[str, Any] | None = None,
         auth_type: str = "api_key",
         **kwargs,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Convenience method for GET requests."""
         return await self._request(
             interface, method, version, params, auth_type, "GET", **kwargs
@@ -144,10 +144,10 @@ class BaseAPI:
         interface: str,
         method: str,
         version: str = "v1",
-        params: Optional[Dict[str, Any]] = None,
+        params: dict[str, Any] | None = None,
         auth_type: str = "api_key",
         **kwargs,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Convenience method for POST requests."""
         return await self._request(
             interface, method, version, params, auth_type, "POST", **kwargs
@@ -158,10 +158,10 @@ class BaseAPI:
         interface: str,
         method: str,
         version: str = "v1",
-        params: Optional[Dict[str, Any]] = None,
+        params: dict[str, Any] | None = None,
         auth_type: str = "api_key",
         **kwargs,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Convenience method for PUT requests."""
         return await self._request(
             interface, method, version, params, auth_type, "PUT", **kwargs
@@ -172,10 +172,10 @@ class BaseAPI:
         interface: str,
         method: str,
         version: str = "v1",
-        params: Optional[Dict[str, Any]] = None,
+        params: dict[str, Any] | None = None,
         auth_type: str = "api_key",
         **kwargs,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Convenience method for DELETE requests."""
         return await self._request(
             interface, method, version, params, auth_type, "DELETE", **kwargs
