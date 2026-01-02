@@ -9,16 +9,15 @@ from ..exceptions import (
     SteamAPIError,
 )
 from ..models.player import (
-    PlayerSummary,
     Friend,
-    PlayerBan,
-    PlayerSummariesResponse,
     FriendsListResponse,
+    PlayerBan,
     PlayerBansResponse,
+    PlayerSummariesResponse,
+    PlayerSummary,
     ResolveVanityURLResponse,
 )
 from .base import BaseAPI
-
 
 logger = logging.getLogger(__name__)
 

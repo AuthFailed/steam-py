@@ -2,14 +2,13 @@
 
 import asyncio
 import logging
-from typing import Any, Dict, Optional
 import time
+from typing import Any, Dict, Optional
 
 import aiohttp
-from aiohttp import ClientSession, ClientTimeout, ClientError
+from aiohttp import ClientError, ClientSession, ClientTimeout
 
 from .config import Settings
-
 
 logger = logging.getLogger(__name__)
 

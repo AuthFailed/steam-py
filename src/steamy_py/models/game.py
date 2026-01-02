@@ -1,7 +1,8 @@
 """Game/App related data models for Steam API."""
 
 from datetime import datetime
-from typing import List, Optional, Dict, Any
+from typing import Any, Dict, List, Optional
+
 from pydantic import Field
 
 from .base import SteamModel, SteamResponse

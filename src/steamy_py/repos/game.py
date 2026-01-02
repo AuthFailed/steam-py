@@ -5,24 +5,23 @@ from typing import List, Optional
 
 from ..exceptions import (
     GameNotFoundError,
-    InvalidSteamIDError,
     InvalidAppIDError,
+    InvalidSteamIDError,
     PrivateProfileError,
     SteamAPIError,
 )
 from ..models.game import (
-    OwnedGame,
-    SteamApp,
     Achievement,
-    GameSchema,
     AppDetails,
-    GetOwnedGamesResponse,
+    GameSchema,
     GetAppListResponse,
+    GetOwnedGamesResponse,
     GetPlayerAchievementsResponse,
     GetSchemaResponse,
+    OwnedGame,
+    SteamApp,
 )
 from .base import BaseAPI
-
 
 logger = logging.getLogger(__name__)
 
@@ -89,7 +88,7 @@ class GameAPI(BaseAPI):
             logger.error(f"Error getting owned games for {steam_id}: {e}")
             if isinstance(e, SteamAPIError):
                 raise
-            raise SteamAPIError(f"Failed to get owned games: {e}")
+            raise SteamAPIError(f"Failed to get owned games: {e}") from e
 
     async def get_app_list(self) -> List[SteamApp]:
         """Get list of all Steam applications.
@@ -115,7 +114,7 @@ class GameAPI(BaseAPI):
             logger.error(f"Error getting app list: {e}")
             if isinstance(e, SteamAPIError):
                 raise
-            raise SteamAPIError(f"Failed to get app list: {e}")
+            raise SteamAPIError(f"Failed to get app list: {e}") from e
 
     async def get_player_achievements(
         self, steam_id: str, app_id: int, language: str = "english"
@@ -174,7 +173,7 @@ class GameAPI(BaseAPI):
             )
             if isinstance(e, SteamAPIError):
                 raise
-            raise SteamAPIError(f"Failed to get player achievements: {e}")
+            raise SteamAPIError(f"Failed to get player achievements: {e}") from e
 
     async def get_schema_for_game(
         self, app_id: int, language: str = "english"
@@ -218,7 +217,7 @@ class GameAPI(BaseAPI):
             logger.error(f"Error getting schema for app {app_id}: {e}")
             if isinstance(e, SteamAPIError):
                 raise
-            raise SteamAPIError(f"Failed to get game schema: {e}")
+            raise SteamAPIError(f"Failed to get game schema: {e}") from e
 
     async def get_app_details(
         self, app_id: int, country: str = "US", language: str = "english"
@@ -255,7 +254,7 @@ class GameAPI(BaseAPI):
             logger.error(f"Error getting app details for {app_id}: {e}")
             if isinstance(e, SteamAPIError):
                 raise
-            raise SteamAPIError(f"Failed to get app details: {e}")
+            raise SteamAPIError(f"Failed to get app details: {e}") from e
 
     async def search_games(
         self, search_term: str, owned_games: Optional[List[OwnedGame]] = None

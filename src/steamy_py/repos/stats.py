@@ -5,27 +5,26 @@ from typing import List, Optional
 
 from ..exceptions import (
     GameNotFoundError,
-    InvalidSteamIDError,
     InvalidAppIDError,
+    InvalidSteamIDError,
     PrivateProfileError,
     SteamAPIError,
 )
 from ..models.stats import (
-    GlobalStat,
-    UserStat,
-    UserAchievement,
-    GlobalAchievementStat,
-    PlayerCount,
-    NewsItem,
-    GetGlobalStatsResponse,
-    GetUserStatsGameResponse,
     GetGlobalAchievementResponse,
-    GetPlayerCountResponse,
+    GetGlobalStatsResponse,
     GetNewsResponse,
+    GetPlayerCountResponse,
+    GetUserStatsGameResponse,
+    GlobalAchievementStat,
+    GlobalStat,
+    NewsItem,
+    PlayerCount,
+    UserAchievement,
+    UserStat,
     UserStatsResponse,
 )
 from .base import BaseAPI
-
 
 logger = logging.getLogger(__name__)
 
