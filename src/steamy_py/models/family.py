@@ -29,14 +29,6 @@ class FamilyGroupStatus(BaseModel):
 class FamilyGroupStatusResponse(BaseModel):
     response: FamilyGroupStatus
 
-    def __getattr__(self, item):
-        try:
-            return getattr(self.response, item)
-        except AttributeError:
-            raise AttributeError(
-                f"{self.__class__.__name__!r} object has no attribute {item!r}"
-            )
-
 
 class Entry(BaseModel):
     steamid: str
@@ -52,3 +44,35 @@ class ResponseData(BaseModel):
 
 class SteamResponse(BaseModel):
     response: ResponseData
+
+
+class SharedLibraryApp(BaseModel):
+    appid: int = Field(..., description="Steam app ID")
+    owner_steamids: list[str] = Field(
+        ..., description="Steam IDs of users who own this app"
+    )
+    name: str = Field(..., description="App name")
+    capsule_filename: str = Field(
+        ..., description="Filename for the app's capsule image"
+    )
+    img_icon_hash: str = Field(..., description="Hash for the app's icon image")
+    exclude_reason: int = Field(
+        ..., description="Reason for exclusion from family sharing (0 if not excluded)"
+    )
+    rt_time_acquired: int = Field(
+        ..., description="Unix timestamp when app was acquired"
+    )
+    rt_last_played: int = Field(..., description="Unix timestamp of last play time")
+    rt_playtime: int = Field(..., description="Total playtime in seconds")
+    app_type: int = Field(..., description="Type of app")
+    content_descriptors: list[int] = Field(
+        default_factory=list, description="Content descriptor IDs"
+    )
+
+
+class SharedLibraryAppsData(BaseModel):
+    apps: list[SharedLibraryApp]
+
+
+class SharedLibraryAppsResponse(BaseModel):
+    response: SharedLibraryAppsData
