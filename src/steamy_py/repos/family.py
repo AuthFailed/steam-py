@@ -3,7 +3,11 @@
 import logging
 
 from ..exceptions import AuthenticationError, SteamAPIError
-from ..models.family import FamilyGroupStatusResponse, SteamResponse
+from ..models.family import (
+    FamilyGroupStatusResponse,
+    SharedLibraryAppsResponse,
+    SteamResponse,
+)
 from .base import BaseAPI
 
 logger = logging.getLogger(__name__)
@@ -30,7 +34,7 @@ class FamilyAPI(BaseAPI):
         """
         params = {}
         if family_group_id:
-            params["family_group_id"] = family_group_id
+            params["family_groupid"] = family_group_id
         if steamid_to_cancel:
             params["steamid_to_cancel"] = steamid_to_cancel
 
@@ -51,8 +55,8 @@ class FamilyAPI(BaseAPI):
                 ) from e
             raise
         except Exception as e:
-            logger.error(f"Error getting change log: {e}")
-            raise SteamAPIError(f"Failed to get change log: {e}") from e
+            logger.error(f"Error canceling family group invite: {e}")
+            raise SteamAPIError(f"Failed to cancel family group invite: {e}") from e
 
     async def clear_cooldown_skip(
         self, steamid: int | None = None, invite_id: int | None = None
@@ -89,8 +93,8 @@ class FamilyAPI(BaseAPI):
                 ) from e
             raise
         except Exception as e:
-            logger.error(f"Error getting change log: {e}")
-            raise SteamAPIError(f"Failed to get change log: {e}") from e
+            logger.error(f"Error clearing cooldown skip: {e}")
+            raise SteamAPIError(f"Failed to clear cooldown skip: {e}") from e
 
     async def confirm_invite_to_family_group(
         self,
@@ -110,7 +114,7 @@ class FamilyAPI(BaseAPI):
         """
         params = {}
         if family_group_id:
-            params["family_group_id"] = family_group_id
+            params["family_groupid"] = family_group_id
         if invite_id:
             params["invite_id"] = invite_id
         if nonce:
@@ -133,8 +137,8 @@ class FamilyAPI(BaseAPI):
                 ) from e
             raise
         except Exception as e:
-            logger.error(f"Error getting change log: {e}")
-            raise SteamAPIError(f"Failed to get change log: {e}") from e
+            logger.error(f"Error confirming invite to family group: {e}")
+            raise SteamAPIError(f"Failed to confirm invite to family group: {e}") from e
 
     async def confirm_join_family_group(
         self,
@@ -154,7 +158,7 @@ class FamilyAPI(BaseAPI):
         """
         params = {}
         if family_group_id:
-            params["family_group_id"] = family_group_id
+            params["family_groupid"] = family_group_id
         if invite_id:
             params["invite_id"] = invite_id
         if nonce:
@@ -177,8 +181,8 @@ class FamilyAPI(BaseAPI):
                 ) from e
             raise
         except Exception as e:
-            logger.error(f"Error getting change log: {e}")
-            raise SteamAPIError(f"Failed to get change log: {e}") from e
+            logger.error(f"Error confirming join to family group: {e}")
+            raise SteamAPIError(f"Failed to confirm join to family group: {e}") from e
 
     async def create_family_group(self, name: str, steamid: int | None = None):
         """Creates a new family group.
@@ -214,8 +218,8 @@ class FamilyAPI(BaseAPI):
                 ) from e
             raise
         except Exception as e:
-            logger.error(f"Error getting change log: {e}")
-            raise SteamAPIError(f"Failed to get change log: {e}") from e
+            logger.error(f"Error creating family group: {e}")
+            raise SteamAPIError(f"Failed to create family group: {e}") from e
 
     async def delete_family_group(
         self,
@@ -231,7 +235,7 @@ class FamilyAPI(BaseAPI):
         """
         params = {}
         if family_group_id:
-            params["family_group_id"] = family_group_id
+            params["family_groupid"] = family_group_id
 
         try:
             response_data = await self._request(
@@ -250,8 +254,8 @@ class FamilyAPI(BaseAPI):
                 ) from e
             raise
         except Exception as e:
-            logger.error(f"Error getting change log: {e}")
-            raise SteamAPIError(f"Failed to get change log: {e}") from e
+            logger.error(f"Error deleing family group: {e}")
+            raise SteamAPIError(f"Failed to delete family group: {e}") from e
 
     async def force_accept_invite(
         self,
@@ -269,7 +273,7 @@ class FamilyAPI(BaseAPI):
         """
         params = {}
         if family_group_id:
-            params["family_group_id"] = family_group_id
+            params["family_groupid"] = family_group_id
         if steamid:
             params["steamid"] = steamid
 
@@ -290,8 +294,8 @@ class FamilyAPI(BaseAPI):
                 ) from e
             raise
         except Exception as e:
-            logger.error(f"Error getting change log: {e}")
-            raise SteamAPIError(f"Failed to get change log: {e}") from e
+            logger.error(f"Error force accepting invite: {e}")
+            raise SteamAPIError(f"Failed to force accept invite: {e}") from e
 
     async def get_change_log(self, family_group_id: int | None = None):
         """Return a log of changes made to this family group.
@@ -306,7 +310,7 @@ class FamilyAPI(BaseAPI):
         """
         params = {}
         if family_group_id:
-            params["family_group_id"] = family_group_id
+            params["family_groupid"] = family_group_id
 
         try:
             response_data = await self._request(
@@ -349,7 +353,7 @@ class FamilyAPI(BaseAPI):
         """
         params = {}
         if family_group_id:
-            params["family_group_id"] = family_group_id
+            params["family_groupid"] = family_group_id
         if send_running_apps:
             params["send_running_apps"] = "1"
 
@@ -402,7 +406,6 @@ class FamilyAPI(BaseAPI):
                 params=params,
                 auth_type="access_token",
             )
-            print(response_data)
             return FamilyGroupStatusResponse.model_validate(response_data)
         except ValueError as e:
             if "Access token is required" in str(e):
@@ -428,7 +431,7 @@ class FamilyAPI(BaseAPI):
         """
         params = {}
         if family_group_id is not None:
-            params["family_group_id"] = family_group_id
+            params["family_groupid"] = family_group_id
         if steamid is not None:
             params["steamid"] = steamid
 
@@ -500,7 +503,7 @@ class FamilyAPI(BaseAPI):
         """
         params = {}
         if family_group_id is not None:
-            params["family_group_id"] = family_group_id
+            params["family_groupid"] = family_group_id
 
         try:
             response_data = await self._request(
@@ -543,9 +546,9 @@ class FamilyAPI(BaseAPI):
         if request_ids is not None:
             params["request_ids"] = request_ids
         if family_group_id is not None:
-            params["family_group_id"] = family_group_id
+            params["family_groupid"] = family_group_id
         if include_completed is not None:
-            params["include_completed"] = include_completed
+            params["include_completed"] = "1" if include_completed else "0"
         if rt_include_completed_since is not None:
             params["rt_include_completed_since"] = rt_include_completed_since
 
@@ -578,7 +581,7 @@ class FamilyAPI(BaseAPI):
         language: str = "english",
         max_apps: int | None = None,
         steamid: int | None = None,
-    ):
+    ) -> SharedLibraryAppsResponse:
         """Return a list of apps available from other members.
 
         Args:
@@ -596,15 +599,15 @@ class FamilyAPI(BaseAPI):
         """
         params = {}
         if family_group_id is not None:
-            params["family_group_id"] = family_group_id
+            params["family_groupid"] = family_group_id
         if include_own is not None:
-            params["include_own"] = include_own
+            params["include_own"] = "1" if include_own else "0"
         if include_excluded is not None:
-            params["include_excluded"] = include_excluded
+            params["include_excluded"] = "1" if include_excluded else "0"
         if include_free is not None:
-            params["include_free"] = include_free
+            params["include_free"] = "1" if include_free else "0"
         if include_non_games is not None:
-            params["include_non_games"] = include_non_games
+            params["include_non_games"] = "1" if include_non_games else "0"
         if language is not None:
             params["language"] = language
         if max_apps is not None:
@@ -620,7 +623,7 @@ class FamilyAPI(BaseAPI):
                 params=params,
                 auth_type="access_token",
             )
-            return response_data
+            return SharedLibraryAppsResponse.model_validate(response_data)
         except ValueError as e:
             if "Access token is required" in str(e):
                 raise AuthenticationError(
@@ -649,7 +652,7 @@ class FamilyAPI(BaseAPI):
         """
         params = {}
         if family_group_id is not None:
-            params["family_group_id"] = family_group_id
+            params["family_groupid"] = family_group_id
         if client_session_id is not None:
             params["client_session_id"] = client_session_id
         if client_instance_id is not None:
@@ -692,7 +695,7 @@ class FamilyAPI(BaseAPI):
         """
         params = {}
         if family_group_id is not None:
-            params["family_group_id"] = family_group_id
+            params["family_groupid"] = family_group_id
         if receiver_steamid is not None:
             params["receiver_steamid"] = receiver_steamid
         if receiver_role is not None:
@@ -715,8 +718,8 @@ class FamilyAPI(BaseAPI):
                 ) from e
             raise
         except Exception as e:
-            logger.error(f"Error joining to family group: {e}")
-            raise SteamAPIError(f"Failed to join to family group: {e}") from e
+            logger.error(f"Error inviting to family group: {e}")
+            raise SteamAPIError(f"Failed to invite to family group: {e}") from e
 
     async def join_family_group(
         self, family_group_id: int | None = None, nonce: int | None = None
@@ -732,7 +735,7 @@ class FamilyAPI(BaseAPI):
         """
         params = {}
         if family_group_id is not None:
-            params["family_group_id"] = family_group_id
+            params["family_groupid"] = family_group_id
         if nonce is not None:
             params["nonce"] = nonce
 
@@ -753,8 +756,8 @@ class FamilyAPI(BaseAPI):
                 ) from e
             raise
         except Exception as e:
-            logger.error(f"Error getting invite to family group: {e}")
-            raise SteamAPIError(f"Failed to get invite to family group: {e}") from e
+            logger.error(f"Error joining to family group: {e}")
+            raise SteamAPIError(f"Failed to join to family group: {e}") from e
 
     async def modify_family_group_details(
         self, family_group_id: int | None = None, name: str | None = None
@@ -770,7 +773,7 @@ class FamilyAPI(BaseAPI):
         """
         params = {}
         if family_group_id is not None:
-            params["family_group_id"] = family_group_id
+            params["family_groupid"] = family_group_id
         if name is not None:
             params["name"] = name
 
@@ -791,8 +794,8 @@ class FamilyAPI(BaseAPI):
                 ) from e
             raise
         except Exception as e:
-            logger.error(f"Error to remove from family group: {e}")
-            raise SteamAPIError(f"Failed to remove from family group: {e}") from e
+            logger.error(f"Error modifying family group: {e}")
+            raise SteamAPIError(f"Failed to modify family group: {e}") from e
 
     async def remove_from_family_group(
         self, family_group_id: int | None = None, steamid_to_remove: int | None = None
@@ -808,7 +811,7 @@ class FamilyAPI(BaseAPI):
         """
         params = {}
         if family_group_id is not None:
-            params["family_group_id"] = family_group_id
+            params["family_groupid"] = family_group_id
         if steamid_to_remove is not None:
             params["steamid_to_remove"] = steamid_to_remove
 
@@ -852,13 +855,13 @@ class FamilyAPI(BaseAPI):
         """
         params = {}
         if family_group_id is not None:
-            params["family_group_id"] = family_group_id
+            params["family_groupid"] = family_group_id
         if gid_shopping_card is not None:
             params["gid_shopping_card"] = gid_shopping_card
         if store_country_code is not None:
             params["store_country_code"] = store_country_code
         if use_account_cart:
-            params["use_account_cart"] = use_account_cart
+            params["use_account_cart"] = "1"
 
         try:
             response_data = await self._request(
@@ -896,7 +899,7 @@ class FamilyAPI(BaseAPI):
         """
         params = {}
         if family_group_id is not None:
-            params["family_group_id"] = family_group_id
+            params["family_groupid"] = family_group_id
         if steamid is not None:
             params["steamid"] = steamid
 
@@ -942,7 +945,7 @@ class FamilyAPI(BaseAPI):
         """
         params = {}
         if family_group_id is not None:
-            params["family_group_id"] = family_group_id
+            params["family_groupid"] = family_group_id
         if purchase_requester_steamid is not None:
             params["purchase_requester_steamid"] = purchase_requester_steamid
         if action is not None:
@@ -984,7 +987,7 @@ class FamilyAPI(BaseAPI):
         """
         params = {}
         if family_group_id is not None:
-            params["family_group_id"] = family_group_id
+            params["family_groupid"] = family_group_id
         if rtime32_target is not None:
             params["rtime32_target"] = rtime32_target
 
@@ -1023,7 +1026,7 @@ class FamilyAPI(BaseAPI):
         """
         params = {}
         if family_group_id is not None:
-            params["family_group_id"] = family_group_id
+            params["family_groupid"] = family_group_id
         if cooldown_count is not None:
             params["cooldown_count"] = cooldown_count
 
@@ -1053,7 +1056,7 @@ class FamilyAPI(BaseAPI):
         appid: int | None = None,
         lender_steamid: int | None = None,
     ):
-        """
+        """Sets preferred lender of family group.
 
         Args:
             family_group_id: Requester's family group id
@@ -1065,7 +1068,7 @@ class FamilyAPI(BaseAPI):
         """
         params = {}
         if family_group_id is not None:
-            params["family_group_id"] = family_group_id
+            params["family_groupid"] = family_group_id
         if appid is not None:
             params["appid"] = appid
         if lender_steamid is not None:
@@ -1102,7 +1105,7 @@ class FamilyAPI(BaseAPI):
         """
         params = {}
         if family_group_id is not None:
-            params["family_group_id"] = family_group_id
+            params["family_groupid"] = family_group_id
 
         try:
             response_data = await self._request(
